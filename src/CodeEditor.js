@@ -125,7 +125,8 @@ function CodeEditor() {
 
   const startDebugger = () => {
     const codeLines = code.split('\n');
-    
+    const logs = [];
+
     // Reset debugger state
     setDebuggerState({
       active: true,
@@ -134,10 +135,26 @@ function CodeEditor() {
       pausedAt: null,
       running: true
     });
+
+    // Always execute the first line
+    executeLineAndCaptureLogs(codeLines[0], 0, logs);
     
-    // Execute the code line by line
+    // If first line is a breakpoint, pause there
+    if (breakpoints.has(1)) {
+      setDebuggerState({
+        active: true,
+        currentLine: 0,
+        evaluatedLines: [0],
+        pausedAt: 1,
+        running: false
+      });
+      setOutput(logs.join('\n') + '\nPaused at breakpoint (line 1)');
+      return;
+    }
+    
+    // Execute the rest of the code line by line
     setTimeout(() => {
-      executeNextLine(codeLines, 0, []);
+      executeNextLine(codeLines, 1, logs);
     }, 100);
   };
 
@@ -404,8 +421,8 @@ function CodeEditor() {
     if (!debuggerState.active || debuggerState.running) return;
     
     const codeLines = code.split('\n');
-    // If already at a breakpoint, we need to move to the next line
-    const currentIndex = debuggerState.pausedAt ? debuggerState.pausedAt : debuggerState.currentLine;
+    // Start from the current paused line
+    const startIndex = debuggerState.pausedAt;
     
     // Get existing logs from output by removing any pause messages
     let existingOutput = output;
@@ -424,7 +441,7 @@ function CodeEditor() {
     });
     
     // Continue execution until the next breakpoint
-    continueToNextBreakpoint(codeLines, currentIndex, logs);
+    continueToNextBreakpoint(codeLines, startIndex, logs);
   };
 
   const continueToNextBreakpoint = (codeLines, startIndex, logs) => {
@@ -435,7 +452,7 @@ function CodeEditor() {
         finishDebuggerExecution(logs);
         return;
       }
-      
+
       // Execute the current line and capture output
       executeLineAndCaptureLogs(codeLines[index], index, logs);
       
@@ -456,23 +473,17 @@ function CodeEditor() {
         });
         
         // Add breakpoint message
-        setOutput(current => {
-          const filteredOutput = current.split('\n')
-            .filter(line => !line.includes('Paused at breakpoint') && !line.includes('Execution paused'))
-            .join('\n');
-          return filteredOutput ? `${filteredOutput}\nPaused at breakpoint (line ${index + 1})` : 
-            `Paused at breakpoint (line ${index + 1})`;
-        });
+        setOutput(logs.join('\n') + '\nPaused at breakpoint (line ' + (index + 1) + ')');
         return;
       }
       
-      // Move to the next line
+      // Move to the next line after a short delay
       setTimeout(() => {
         processNextLine(index + 1);
       }, 10);
     };
     
-    // Start processing from the startIndex
+    // Start processing from the current line
     processNextLine(startIndex);
   };
   
