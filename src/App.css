@@ -1,5 +1,19 @@
 .App {
   text-align: center;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .App {
+    padding: 10px;
+  }
 }
 
 .App-logo {

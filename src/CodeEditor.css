@@ -1,0 +1,200 @@
+.code-editor {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.editor-container {
+  display: flex;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background-color: #1e1e1e; /* Dark background for code editor */
+}
+
+.line-numbers {
+  display: flex;
+  flex-direction: column;
+  background-color: #252526;
+  padding: 10px 0;
+  text-align: right;
+  color: #858585;
+  font-family: monospace;
+  user-select: none;
+  border-right: 1px solid #333;
+  z-index: 1;
+  min-width: 60px;
+}
+
+.line-number {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 5px;
+  line-height: 1.5;
+  height: 21px; /* Match the line-height of textarea */
+  position: relative;
+}
+
+.line-number.current-line {
+  background-color: rgba(120, 170, 255, 0.2);
+}
+
+.line-number span {
+  margin-left: 5px;
+}
+
+.breakpoint {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background-color: transparent;
+}
+
+.line-number:hover .breakpoint {
+  opacity: 0.5;
+  border: 1px solid rgba(255, 0, 0, 0.5);
+}
+
+.breakpoint.active {
+  opacity: 1;
+  background-color: #ff5252;
+  border: none;
+}
+
+.editor-with-highlighting {
+  flex: 1;
+  position: relative;
+  min-height: 200px;
+}
+
+.syntax-highlighter {
+  z-index: 1;
+}
+
+.code-input {
+  font-family: monospace !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  padding: 10px !important;
+  border: none !important;
+  outline: none !important;
+  resize: vertical !important;
+  min-height: 200px !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  tab-size: 2 !important;
+  z-index: 2 !important;
+  box-sizing: border-box !important;
+}
+
+.debug-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.run-button {
+  flex: 1;
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #4CAF50;
+}
+
+.run-button:hover {
+  background-color: #45a049;
+}
+
+.run-button.pause {
+  background-color: #f44336;
+}
+
+.run-button.pause:hover {
+  background-color: #d32f2f;
+}
+
+.run-button.resume {
+  background-color: #4CAF50;
+}
+
+.run-button.resume:hover {
+  background-color: #45a049;
+}
+
+.debug-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+  color: white;
+}
+
+.debug-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.debug-button.resume {
+  background-color: #2196F3;
+}
+
+.debug-button.resume:hover:not(:disabled) {
+  background-color: #0b7dda;
+}
+
+.debug-button.step-over {
+  background-color: #ff9800;
+}
+
+.debug-button.step-over:hover:not(:disabled) {
+  background-color: #e68a00;
+}
+
+.debug-button.restart {
+  background-color: #9c27b0;
+}
+
+.debug-button.restart:hover {
+  background-color: #7b1fa2;
+}
+
+.output-container {
+  width: 100%;
+}
+
+.output-container h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.output-area {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  background-color: #f9f9f9;
+} 
